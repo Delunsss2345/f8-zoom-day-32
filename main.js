@@ -205,6 +205,12 @@ document.querySelectorAll(".context-menu-item").forEach((item) => {
   });
 });
 
+const escapeHtml = (str) => {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+};
+
 function handleRename(target) {
   const textElement = target.querySelector("p");
   const currentName = textElement.textContent;
@@ -214,14 +220,14 @@ function handleRename(target) {
   input.className =
     "w-full border border-transparent focus:border-[#323842] outline-none text-white";
 
-  textElement.style.display = "none ";
+  textElement.style.display = "none";
   textElement.parentNode.appendChild(input);
 
   input.focus();
 
   const renameInput = () => {
     if (input.value && input.value !== currentName) {
-      textElement.textContent = input.value;
+      textElement.textContent = escapeHtml(input.value);
     } else {
       textElement.textContent = currentName;
     }
