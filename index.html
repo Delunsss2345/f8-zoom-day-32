@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body class="bg-[#1e1e1e] font-mono text-[13px]">
+    <div class="w-64 bg-slate-950 h-screen overflow-hidden">
+      <div
+        class="px-4 py-2 text-[#cccccc] text-xs uppercase tracking-wide font-semibold border-b border-[#2d2d30]"
+      >
+        Explorer
+      </div>
+
+      <div id="folder-main" class="space-y-2 w-full"></div>
+
+      <div
+        id="context-menu"
+        class="fixed bg-slate-950 border border-[#464647] rounded-sm shadow-lg py-1 z-50 hidden min-w-[120px]"
+      >
+        <div
+          class="context-menu-item px-2 py-1 text-[#cccccc] text-sm hover:bg-[#094771] cursor-pointer flex items-center mx-1 rounded-sm"
+        >
+          <i class="fas fa-edit mr-2 text-xs"></i>
+          Rename
+        </div>
+        <div
+          class="context-menu-item px-2 py-1 text-[#cccccc] text-sm hover:bg-[#094771] cursor-pointer flex items-center mx-1 rounded-sm"
+        >
+          <i class="fas fa-trash mr-2 text-xs"></i>
+          Delete
+        </div>
+      </div>
+    </div>
+    <script src="./main.js"></script>
+  </body>
+</html>
