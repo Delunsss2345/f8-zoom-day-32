@@ -129,6 +129,22 @@ const handleHightLight = (
     toggleFolder(div, expandIcon, folderIcon);
   }
 };
+function getFileIconClass(ext) {
+  switch (ext) {
+    case "js":
+      return "fa-brands fa-js text-yellow-400";
+    case "html":
+      return "fa-brands fa-html5 text-orange-500";
+    case "css":
+      return "fa-brands fa-css3-alt text-blue-400";
+    case "json":
+      return "fa-solid fa-file-code text-green-400";
+    case "md":
+      return "fa-solid fa-file-lines text-gray-400";
+    default:
+      return "fa-solid fa-file text-[#dcb67a]";
+  }
+}
 
 function renderFolderItem(folder) {
   const div = document.createElement("div");
@@ -142,6 +158,9 @@ function renderFolderItem(folder) {
     "fas fa-chevron-right w-3 h-3 mr-1 text-[#cccccc] text-xs transition-transform duration-200";
 
   const folderIcon = document.createElement("i");
+  const folderText = document.createElement("p");
+  folderText.className = "folder-text text-[#cccccc] text-sm";
+  folderText.textContent = folder.name;
 
   if (folder.type === "folder") {
     div.classList.add("flex-col", "items-start", "relative");
@@ -164,12 +183,12 @@ function renderFolderItem(folder) {
 
     expandIcon.classList.remove("fas", "fa-chevron-right");
     divIcon.appendChild(expandIcon);
-    folderIcon.className = "fa-solid fa-file mr-2 text-[#dcb67a]";
-  }
+    const fileName = folder.name;
+    const ext = fileName.split(".").pop();
+    console.log(div);
 
-  const folderText = document.createElement("p");
-  folderText.className = "text-[#cccccc] text-sm";
-  folderText.textContent = folder.name;
+    folderIcon.className = getFileIconClass(ext) + " mr-2";
+  }
 
   divIcon.appendChild(folderIcon);
   divIcon.appendChild(folderText);
