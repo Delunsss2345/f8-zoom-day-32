@@ -9,41 +9,29 @@ const tree = [
         type: "folder",
         name: "components",
         children: [
-          { type: "file", name: "Header.js" },
-          { type: "file", name: "Footer.js" },
-          { type: "file", name: "Button.js" },
+          { type: "file", name: "Header.jsx" },
+          { type: "file", name: "Footer.jsx" },
+          { type: "file", name: "Button.jsx" },
         ],
       },
       {
         type: "folder",
         name: "pages",
         children: [
-          {
-            type: "file",
-            name: "HomePage.js",
-          },
-          {
-            type: "file",
-            name: "AboutPage.js",
-          },
+          { type: "file", name: "HomePage.jsx" },
+          { type: "file", name: "AboutPage.jsx" },
         ],
       },
       {
         type: "folder",
         name: "utils",
         children: [
-          {
-            type: "file",
-            name: "formatDate.js",
-          },
-          {
-            type: "file",
-            name: "validator.js",
-          },
+          { type: "file", name: "formatDate.js" },
+          { type: "file", name: "validator.js" },
         ],
       },
-      { type: "file", name: "index.js" },
-      { type: "file", name: "App.js" },
+      { type: "file", name: "index.jsx" },
+      { type: "file", name: "App.jsx" },
     ],
   },
   {
@@ -65,13 +53,8 @@ const tree = [
   { type: "file", name: ".gitignore" },
   { type: "file", name: "README.md" },
   { type: "file", name: "package.json" },
-  { type: "file", name: ".gitignsore" },
-  { type: "file", name: "READsME.md" },
-  { type: "file", name: "packsage.json" },
-  { type: "file", name: ".gitsignore" },
-  { type: "file", name: "READsME.md" },
-  { type: "file", name: "packsage.json" },
 ];
+
 let currentTarget;
 
 const handlerMenuContext = (e) => {
@@ -129,10 +112,14 @@ const handleHightLight = (
     toggleFolder(div, expandIcon, folderIcon);
   }
 };
+
 function getFileIconClass(ext) {
   switch (ext) {
     case "js":
+    case "mjs":
       return "fa-brands fa-js text-yellow-400";
+    case "jsx":
+      return "fa-brands fa-react text-cyan-400";
     case "html":
       return "fa-brands fa-html5 text-orange-500";
     case "css":
@@ -141,6 +128,9 @@ function getFileIconClass(ext) {
       return "fa-solid fa-file-code text-green-400";
     case "md":
       return "fa-solid fa-file-lines text-gray-400";
+    case "gitignore":
+    case ".gitignore":
+      return "fa-brands fa-git-alt text-red-500";
     default:
       return "fa-solid fa-file text-[#dcb67a]";
   }
