@@ -65,18 +65,70 @@ const tree = [
   { type: "file", name: ".gitignore" },
   { type: "file", name: "README.md" },
   { type: "file", name: "package.json" },
+  { type: "file", name: ".gitignsore" },
+  { type: "file", name: "READsME.md" },
+  { type: "file", name: "packsage.json" },
+  { type: "file", name: ".gitsignore" },
+  { type: "file", name: "READsME.md" },
+  { type: "file", name: "packsage.json" },
 ];
 let currentTarget;
 
 const handlerMenuContext = (e) => {
   e.preventDefault();
-  contextMenu.style.top = `${e.pageY}px`;
-  contextMenu.style.left = `${e.pageX}px`;
-  contextMenu.classList.toggle("hidden");
-  currentTarget = e.target.closest(".documentItem");
+  if (e.target.closest(".folder-header")) {
+    e.preventDefault();
+
+    const menuWidth = contextMenu.offsetWidth;
+    const menuHeight = contextMenu.offsetHeight;
+    let x = e.clientX;
+    let y = e.clientY;
+
+    if (x + menuWidth >= window.innerWidth) {
+      x = window.innerWidth - menuWidth - 10;
+    }
+
+    if (y + menuHeight >= window.innerHeight) {
+      y = window.innerHeight - menuHeight - 10;
+    }
+
+    contextMenu.style.left = `${x}px`;
+    contextMenu.style.top = `${y}px`;
+    contextMenu.classList.remove("hidden");
+
+    currentTarget = e.target.closest(".folder-header");
+  } else {
+    contextMenu.classList.add("hidden");
+    currentTarget = null;
+  }
 };
 
-folderMain.addEventListener("contextmenu", handlerMenuContext);
+document.addEventListener("click", (e) => {
+  contextMenu.classList.add("hidden");
+  currentTarget = null;
+});
+
+document.addEventListener("contextmenu", handlerMenuContext);
+
+// Tách hàm hightlight
+const handleHightLight = (
+  folder = false,
+  divIcon,
+  div,
+  expandIcon,
+  folderIcon
+) => {
+  // Bỏ highlight các folder khác
+  document.querySelectorAll(".folder-header").forEach((el) => {
+    el.classList.remove("bg-[#323842]", "border", "border-[#323842]");
+  });
+
+  // Highlight chính div cha
+  divIcon.classList.add("bg-[#323842]", "border", "border-[#323842]");
+  if (folder) {
+    toggleFolder(div, expandIcon, folderIcon);
+  }
+};
 
 function renderFolderItem(folder) {
   const div = document.createElement("div");
@@ -99,21 +151,19 @@ function renderFolderItem(folder) {
     div.dataset.expand = "false";
 
     // Gắn click vào phần header, không toàn div
-    divIcon.addEventListener("click", (e) => {
-      e.stopPropagation();
 
-      // Bỏ highlight các folder khác
-      document.querySelectorAll(".folder-header").forEach((el) => {
-        el.classList.remove("bg-[#323842]", "border", "border-[#323842]");
-      });
-
-      // Highlight chính div cha
-      divIcon.classList.add("bg-[#323842]", "border", "border-[#323842]");
-
-      toggleFolder(div, expandIcon, folderIcon);
-    });
+    divIcon.addEventListener("click", (e) =>
+      handleHightLight(true, divIcon, div, expandIcon, folderIcon)
+    );
   } else {
     div.classList.add("items-center");
+
+    divIcon.addEventListener("click", (e) =>
+      handleHightLight(false, divIcon, div, expandIcon, folderIcon)
+    );
+
+    expandIcon.classList.remove("fas", "fa-chevron-right");
+    divIcon.appendChild(expandIcon);
     folderIcon.className = "fa-solid fa-file mr-2 text-[#dcb67a]";
   }
 
@@ -172,13 +222,6 @@ const renderFolder = (tree, folder, level = 0) => {
 };
 
 renderFolder(tree, folderMain);
-
-document.addEventListener("click", (e) => {
-  if (!contextMenu.contains(e.target)) {
-    contextMenu.classList.add("hidden");
-    currentTarget = null;
-  }
-});
 
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".folder-header")) {
